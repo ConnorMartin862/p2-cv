@@ -7,7 +7,13 @@
 // EFFECTS:  Initializes *mat as a Matrix with the given width and height,
 //           with all elements initialized to 0.
 void Matrix_init(Matrix* mat, int width, int height) {
-  assert(false); // TODO Replace with your implementation!
+  assert(width > 0);
+  assert(height > 0);
+
+  mat->width = width;
+  mat->height = height;
+
+  mat->data.resize(width * height, 0);
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -19,19 +25,28 @@ void Matrix_init(Matrix* mat, int width, int height) {
 //           by a newline. This means there will be an "extra" space at
 //           the end of each line.
 void Matrix_print(const Matrix* mat, std::ostream& os) {
-  assert(false); // TODO Replace with your implementation!
+  os << mat->width << " " << mat->height << "\n";
+  for (int i = 0; i < mat->height; i++){
+    for (int j = 0; j < mat->width; j++){
+      os << mat -> data[i*(mat -> width) + j];
+      if (j < mat ->width -1 ){
+        os << " ";
+      }
+    }
+    os << "\n";
+  }
 }
 
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the width of the Matrix.
 int Matrix_width(const Matrix* mat) {
-  assert(false); // TODO Replace with your implementation!
+  return mat->width;
 }
 
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the height of the Matrix.
 int Matrix_height(const Matrix* mat) {
-  assert(false); // TODO Replace with your implementation!
+  return mat->height;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -43,7 +58,11 @@ int Matrix_height(const Matrix* mat) {
 // EFFECTS:  Returns a pointer to the element in the Matrix
 //           at the given row and column.
 int* Matrix_at(Matrix* mat, int row, int column) {
-  assert(false); // TODO Replace with your implementation!
+    assert(row >= 0 && row < Matrix_height(mat));
+    assert(column >= 0 && column < Matrix_width(mat));
+
+    int* ptr = &mat->data[(mat->width * row) + (column - 1)];
+    return ptr;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -53,14 +72,18 @@ int* Matrix_at(Matrix* mat, int row, int column) {
 // EFFECTS:  Returns a pointer-to-const to the element in
 //           the Matrix at the given row and column.
 const int* Matrix_at(const Matrix* mat, int row, int column) {
-  assert(false); // TODO Replace with your implementation!
+  assert(row >= 0 && row < Matrix_height(mat));
+  assert(column >= 0 && column < Matrix_width(mat));
+
+  const int* ptr = &mat->data[(mat->width * row) + (column - 1)];
+  return ptr;
 }
 
 // REQUIRES: mat points to a valid Matrix
 // MODIFIES: *mat
 // EFFECTS:  Sets each element of the Matrix to the given value.
 void Matrix_fill(Matrix* mat, int value) {
-  assert(false); // TODO Replace with your implementation!
+  mat->data.resize(((Matrix_width(mat))) * (Matrix_height(mat)), value);
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -69,13 +92,37 @@ void Matrix_fill(Matrix* mat, int value) {
 //           the given value. These are all elements in the first/last
 //           row or the first/last column.
 void Matrix_fill_border(Matrix* mat, int value) {
-  assert(false); // TODO Replace with your implementation!
+  for (int i = 0; i < mat->height; i++){
+    if (i == 0 || i == (mat->height - 1)) {
+      for (int j = 0; j < mat->width; j++){
+        mat->data[(mat->width * i) + j] = value;
+      }
+    }
+    else {
+      for (int j = 0; j < mat->width; j++){
+        if (j == 0 || j == (mat->width - 1)) {
+          mat->data[(mat->width * i) + j] = value;
+        }
+      }
+    }
+  }
 }
 
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the value of the maximum element in the Matrix
 int Matrix_max(const Matrix* mat) {
-  assert(false); // TODO Replace with your implementation!
+  int value = 0;
+  for (size_t i = 0; i < mat->data.size(); i++) {
+    if (i == 0) {
+      value = mat->data[i];
+    }
+    else {
+      if (mat->data[i] >= value) {
+        value = mat->data[i];
+      }
+    }
+  }
+  return value;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -90,7 +137,25 @@ int Matrix_max(const Matrix* mat) {
 //           the leftmost one.
 int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
                                       int column_start, int column_end) {
-  assert(false); // TODO Replace with your implementation!
+  assert(0 <= row && row < Matrix_height(mat));
+  assert(0 <= column_start && column_end <= Matrix_width(mat));
+  assert(column_start < column_end);
+
+  int value = 0;
+  int other_value = 0;
+  for (size_t i = 0; i < mat->data.size(); i++) {
+    if (i == 0) {
+      other_value = mat->data[i];
+      value = i;
+    }
+    else {
+      if (mat->data[i] > other_value) {
+        other_value = mat->data[i];
+        value = i;
+      }
+    }
+  }
+  return(value % mat->width);
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -102,5 +167,23 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
 //           column_start (inclusive) and column_end (exclusive).
 int Matrix_min_value_in_row(const Matrix* mat, int row,
                             int column_start, int column_end) {
-  assert(false); // TODO Replace with your implementation!
+  assert(0 <= row && row < Matrix_height(mat));
+  assert(0 <= column_start && column_end <= Matrix_width(mat));
+  assert(column_start < column_end);
+
+  int value = 0;
+  int other_value = 0;
+  for (size_t i = 0; i < mat->data.size(); i++) {
+    if (i == 0) {
+      other_value = mat->data[i];
+      value = i;
+    }
+    else {
+      if (mat->data[i] > other_value) {
+        other_value = mat->data[i];
+        value = i;
+      }
+    }
+  }
+  return(value / mat->width);
 }
