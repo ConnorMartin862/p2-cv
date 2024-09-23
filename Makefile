@@ -5,7 +5,7 @@
 CXX ?= g++
 
 # Compiler flags
-CXXFLAGS ?= --std=c++17 -Wall -Werror -pedantic -g -Wno-sign-compare -Wno-comment
+CXXFLAGS = --std=c++17 -Wall -Werror -pedantic -g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
 
 # Set the following to true to build with JPEG support
 USE_LIBJPEG ?=
@@ -59,6 +59,7 @@ resize.exe: resize.cpp Matrix.cpp Image.cpp processing.cpp
 
 # Disable built-in Makefile rules
 .SUFFIXES:
+
 
 clean:
 	rm -rvf *.exe *.out.txt *.out.ppm *.dSYM *.stackdump
