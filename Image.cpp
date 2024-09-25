@@ -76,7 +76,18 @@ int Image_height(const Image* img) {
 Pixel Image_get_pixel(const Image* img, int row, int column) {
   assert(0 <= row && row < Image_height(img));
   assert(0 <= column && column < Image_width(img));
-  assert(false); // TODO Replace with your implementation!
+  const Matrix* red = &img->red_channel;
+  const Matrix* green = &img->green_channel;
+  const Matrix* blue = &img->blue_channel;
+  const int* redptr = Matrix_at(red, row, column);
+  const int* greenptr = Matrix_at(green, row, column);
+  const int* blueptr = Matrix_at(blue, row, column);
+  Pixel pix;
+  pix.r = *redptr;
+  pix.g = *greenptr;
+  pix.b = *blueptr;
+  return pix;
+   // TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
@@ -88,12 +99,21 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
   assert(0 <= row && row < Image_height(img));
   assert(0 <= column && column < Image_width(img));
-  assert(false); // TODO Replace with your implementation!
+  Pixel p = Image_get_pixel(img, row, column);
+  p.r =color.r;
+  p.g =color.g;
+  p.b =color.b;
+// TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-  assert(false); // TODO Replace with your implementation!
+  for (int i = 0; i < Image_width(img); i++){
+    for (int j = 0; j < Image_height(img); j++){
+      Image_set_pixel(img, i, j, color);
+    }
+  }
+// TODO Replace with your implementation!
 }
