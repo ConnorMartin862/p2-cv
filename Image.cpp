@@ -34,6 +34,7 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
+  
   assert(false); // TODO Replace with your implementation!
 }
 
