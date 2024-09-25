@@ -83,14 +83,24 @@ TEST(set_pixel){
   Matrix_init(&a, 7, 8);
   Matrix_fill(&a, 200);
   Matrix b;
-  Matrix_init(&a, 7, 8);
+  Matrix_init(&b, 7, 8);
   Matrix_fill(&b, 165);
   Matrix c;
-  Matrix_init(&a, 7, 8);
+  Matrix_init(&c, 7, 8);
   Matrix_fill(&c, 92);
   d.red_channel = a;
   d.green_channel = b;
   d.blue_channel = c;
+  Pixel p1;
+  p1.r = 200;
+  p1.g = 165;
+  p1.b = 92;
+  Pixel p2;
+  p1.r = 102;
+  p1.g = 143;
+  p1.b = 2;
+  Image_set_pixel(&d, 3, 4, p2);
+  Pixel_equal((Image_get_pixel(&d, 3, 4)), p2);
 }
 
 
