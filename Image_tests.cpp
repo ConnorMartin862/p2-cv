@@ -41,5 +41,57 @@ TEST(test_print_basic) {
 
 // IMPLEMENT YOUR TEST FUNCTIONS HERE
 // You are encouraged to use any functions from Image_test_helpers.hpp as needed.
+TEST(width_height){
+  Image a;
+  Image b;
+  Image_init(&a, 2, 7);
+  assert(a.width == 2);
+  assert(a.height == 7);
+  Image_init(&b, 1, 16);
+  assert(b.width == 1);
+  assert(b.height == 16);
+}
+
+TEST(get_pixel){
+  Image d;
+  Image_init(&d, 7, 8);
+  Matrix a;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&a, 200);
+  Matrix b;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&b, 165);
+  Matrix c;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&c, 92);
+  d.red_channel = a;
+  d.green_channel = b;
+  d.blue_channel = c;
+  Pixel p1;
+  p1.r = 200;
+  p1.g = 165;
+  p1.b = 92;
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 4, 3)));
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 6, 0)));
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 5, 1)));
+}
+
+TEST(set_pixel){
+  Image d;
+  Image_init(&d, 7, 8);
+  Matrix a;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&a, 200);
+  Matrix b;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&b, 165);
+  Matrix c;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&c, 92);
+  d.red_channel = a;
+  d.green_channel = b;
+  d.blue_channel = c;
+}
+
 
 TEST_MAIN() // Do NOT put a semicolon here
