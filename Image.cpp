@@ -7,7 +7,23 @@
 // EFFECTS:  Initializes the Image with the given width and height, with
 //           all pixels initialized to RGB values of 0.
 void Image_init(Image* img, int width, int height) {
-  assert(false); // TODO Replace with your implementation!
+  assert(width > 0);
+  assert(height > 0);
+
+  img->width = width;
+  img->height = height;
+
+  Matrix_init(&img->green_channel, width, height);
+  Matrix_init(&img->red_channel, width, height);
+  Matrix_init(&img->blue_channel, width, height);
+
+  for (int i = 0; i < height; i++){
+    for (int j = 0; j < width; j++) {
+      *Matrix_at(&img->green_channel, i, j) = 0;
+      *Matrix_at(&img->red_channel, i, j) = 0;
+      *Matrix_at(&img->blue_channel, i, j) = 0;
+    }
+  }
 }
 
 // REQUIRES: img points to an Image
