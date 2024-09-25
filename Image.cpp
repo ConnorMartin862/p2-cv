@@ -34,7 +34,6 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-  
   assert(false); // TODO Replace with your implementation!
 }
 
@@ -59,13 +58,15 @@ void Image_print(const Image* img, std::ostream& os) {
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the width of the Image.
 int Image_width(const Image* img) {
-  assert(false); // TODO Replace with your implementation!
+  return img -> width;
+  // TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the height of the Image.
 int Image_height(const Image* img) {
-  assert(false); // TODO Replace with your implementation!
+  return img -> height;
+  // TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
@@ -73,6 +74,8 @@ int Image_height(const Image* img) {
 //           0 <= column && column < Image_width(img)
 // EFFECTS:  Returns the pixel in the Image at the given row and column.
 Pixel Image_get_pixel(const Image* img, int row, int column) {
+  assert(0 <= row && row < Image_height(img));
+  assert(0 <= column && column < Image_width(img));
   assert(false); // TODO Replace with your implementation!
 }
 
@@ -83,6 +86,8 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 // EFFECTS:  Sets the pixel in the Image at the given row and column
 //           to the given color.
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
+  assert(0 <= row && row < Image_height(img));
+  assert(0 <= column && column < Image_width(img));
   assert(false); // TODO Replace with your implementation!
 }
 
