@@ -270,4 +270,8 @@ void seam_carve(Image *img, int newWidth, int newHeight) {
   seam_carve_width(img, newWidth);
   seam_carve_height(img, newHeight);
   // TODO Replace with your implementation!
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> abf26cf (ooga booga)

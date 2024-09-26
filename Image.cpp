@@ -48,10 +48,9 @@ void Image_init(Image* img, std::istream& is) {
   img->width = width;
   img->height = height;
 
-  img->red_channel = {width, height, std::vector<int>(width * height)};
-  img->green_channel = {width, height, std::vector<int>(width * height)};
-  img->blue_channel = {width, height, std::vector<int>(width * height)};
-
+  Matrix_init(&img->red_channel, width, height);
+  Matrix_init(&img->green_channel, width, height);
+  Matrix_init(&img->blue_channel, width, height);
 
   for (int i = 0; i < width * height; i++) {
     int r;
