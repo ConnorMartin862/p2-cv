@@ -34,7 +34,37 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-  assert(false); // TODO Replace with your implementation!
+  std::string plain;
+  is >> plain;
+  assert(plain == "P3");
+
+  int width;
+  int height;
+  int max_value;
+
+  is >> width >> height;
+  is >> max_value;
+
+  img->width = width;
+  img->height = height;
+
+  img->red_channel = {width, height, std::vector<int>(width * height)};
+  img->green_channel = {width, height, std::vector<int>(width * height)};
+  img->blue_channel = {width, height, std::vector<int>(width * height)};
+
+
+  for (int i = 0; i < width * height; i++) {
+    int r;
+    int g;
+    int b;
+
+    is >> r >> g >> b;
+    img->red_channel.data[i] = r;
+    img->green_channel.data[i] = g;
+    img->blue_channel.data[i] = b;
+  }
+
+  return;
 }
 
 // REQUIRES: img points to a valid Image
@@ -52,21 +82,33 @@ void Image_init(Image* img, std::istream& is) {
 //           "extra" space at the end of each line. See the project spec
 //           for an example.
 void Image_print(const Image* img, std::ostream& os) {
-  assert(false); // TODO Replace with your implementation!
+  os << "P3" << std::endl;
+
+  os << img->width << " " << img->height << std::endl;
+  os << "255" << std::endl;
+
+  for(int i = 0; i < img->height; i++) {
+    for (int j = 0; j < img->width; j++) {
+      os << img->red_channel.data[(i * img->width) + j] << " " <<
+       img->green_channel.data[(i * img->width) + j] << " " << 
+       img->blue_channel.data[(i * img->width) + j] << " ";
+    }
+    os << std::endl;
+  }
+
+  return;
 }
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the width of the Image.
 int Image_width(const Image* img) {
-  return img -> width;
-  // TODO Replace with your implementation!
+  return img->width;
 }
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the height of the Image.
 int Image_height(const Image* img) {
   return img -> height;
-  // TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
@@ -87,7 +129,6 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
   pix.g = *greenptr;
   pix.b = *blueptr;
   return pix;
-   // TODO Replace with your implementation!
 }
 
 // REQUIRES: img points to a valid Image
@@ -99,21 +140,20 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
   assert(0 <= row && row < Image_height(img));
   assert(0 <= column && column < Image_width(img));
-  Pixel p = Image_get_pixel(img, row, column);
-  p.r =color.r;
-  p.g =color.g;
-  p.b =color.b;
-// TODO Replace with your implementation!
+  int pixel_num = (row * img->width) + column;
+
+  img->red_channel.data[pixel_num] = color.r;
+  img->blue_channel.data[pixel_num] = color.b;
+  img->green_channel.data[pixel_num] = color.g;
 }
 
 // REQUIRES: img points to a valid Image
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-  for (int i = 0; i < Image_width(img); i++){
-    for (int j = 0; j < Image_height(img); j++){
+for (int i = 0; i < Image_height(img); i++){
+    for (int j = 0; j < Image_width(img); j++){
       Image_set_pixel(img, i, j, color);
     }
   }
-// TODO Replace with your implementation!
 }

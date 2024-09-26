@@ -104,4 +104,82 @@ TEST(set_pixel){
 }
 
 
+TEST(width_height){
+  Image a;
+  Image b;
+  Image_init(&a, 2, 7);
+  assert(a.width == 2);
+  assert(a.height == 7);
+  Image_init(&b, 1, 16);
+  assert(b.width == 1);
+  assert(b.height == 16);
+}
+
+TEST(get_pixel){
+  Image d;
+  Image_init(&d, 7, 8);
+
+  Matrix a;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&a, 200);
+
+  Matrix b;
+  Matrix_init(&b, 7, 8);
+  Matrix_fill(&b, 165);
+
+  Matrix c;
+  Matrix_init(&c, 7, 8);
+  Matrix_fill(&c, 92);
+
+  d.red_channel = a;
+  d.green_channel = b;
+  d.blue_channel = c;
+
+  Pixel p1;
+  p1.r = 200;
+  p1.g = 165;
+  p1.b = 92;
+
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 4, 3)));
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 6, 0)));
+  assert(Pixel_equal(p1, Image_get_pixel(&d, 5, 1)));
+}
+
+TEST(set_pixel){
+  Image d;
+  Image_init(&d, 7, 8);
+
+  Matrix a;
+  Matrix_init(&a, 7, 8);
+  Matrix_fill(&a, 200);
+
+  Matrix b;
+  Matrix_init(&b, 7, 8);
+  Matrix_fill(&b, 165);
+
+  Matrix c;
+  Matrix_init(&c, 7, 8);
+  Matrix_fill(&c, 92);
+
+  d.red_channel = a;
+  d.green_channel = b;
+  d.blue_channel = c;
+
+  Pixel p1;
+  p1.r = 200;
+  p1.g = 165;
+  p1.b = 92;
+
+  Pixel p2;
+  p1.r = 102;
+  p1.g = 143;
+  p1.b = 2;
+
+  Image_set_pixel(&d, 3, 2, p1);
+  Image_set_pixel(&d, 3, 4, p2);
+  Pixel_equal((Image_get_pixel(&d, 3, 2)), p1);
+  Pixel_equal((Image_get_pixel(&d, 3, 4)), p2);
+}
+
+
 TEST_MAIN() // Do NOT put a semicolon here
