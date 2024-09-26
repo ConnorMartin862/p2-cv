@@ -156,8 +156,4 @@ for (int i = 0; i < Image_height(img); i++){
       Image_set_pixel(img, i, j, color);
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b8d506af067ee688c0a3aec0f2da5f66670def7f

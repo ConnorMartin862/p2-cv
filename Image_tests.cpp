@@ -180,10 +180,3 @@ TEST(set_pixel){
   Pixel_equal((Image_get_pixel(&d, 3, 2)), p1);
   Pixel_equal((Image_get_pixel(&d, 3, 4)), p2);
 }
-
-
-<<<<<<< HEAD
-TEST_MAIN() // Do NOT put a semicolon here
-=======
-TEST_MAIN() // Do NOT put a semicolon here
->>>>>>> b8d506af067ee688c0a3aec0f2da5f66670def7f
