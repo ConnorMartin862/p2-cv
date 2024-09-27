@@ -62,8 +62,6 @@ void Image_init(Image* img, std::istream& is) {
     img->green_channel.data[i] = g;
     img->blue_channel.data[i] = b;
   }
-
-  return;
 }
 
 // REQUIRES: img points to a valid Image

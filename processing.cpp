@@ -98,12 +98,12 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
   for (int i = 0; i < height; i++){
     for (int j = 0 ; j < width; j++){
       if (i!=0 || j !=0 || i != height-1 || j != width-1){
-        north = Image_get_pixel(img, i-height, j);
-        south = Image_get_pixel(img, i+height, j);
-        west = Image_get_pixel(img, i, j-width);
-        east = Image_get_pixel(img, i, j+width);
+        north = Image_get_pixel(img, i-1, j);
+        south = Image_get_pixel(img, i+1, j);
+        west = Image_get_pixel(img, i, j-1);
+        east = Image_get_pixel(img, i, j+1);
         sum = squared_difference(north, south) + squared_difference(west, east);
-        energy->data[i*height + width] = sum;
+        energy->data[i*width + j] = sum;
       }
     }
   }
@@ -236,8 +236,12 @@ void seam_carve_width(Image *img, int newWidth) {
   assert(0 < newWidth && newWidth <= Image_width(img));
   Matrix energy;
   Matrix cost;
+  for (int i = newWidth; i < img->width; i++){
   compute_energy_matrix(img, &energy);
   compute_vertical_cost_matrix(&energy, &cost);
+  vector <int> seam = find_minimal_vertical_seam(&cost);
+  remove_vertical_seam(img, seam);
+  }
 // TODO Replace with your implementation!
 }
 
@@ -270,8 +274,4 @@ void seam_carve(Image *img, int newWidth, int newHeight) {
   seam_carve_width(img, newWidth);
   seam_carve_height(img, newHeight);
   // TODO Replace with your implementation!
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> abf26cf (ooga booga)
