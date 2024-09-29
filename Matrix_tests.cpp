@@ -1,6 +1,7 @@
 #include "Matrix.hpp"
 #include "Matrix_test_helpers.hpp"
 #include "unit_test_framework.hpp"
+#include <sstream>
 
 using namespace std;
 
@@ -71,6 +72,16 @@ TEST(test_at_basic){
   ASSERT_EQUAL(*Matrix_at(&mat, 3, 2), value);
 }
 
+TEST(test_at_const){
+  Matrix mat;
+  Matrix_init(&mat, 3, 2);
+
+  const Matrix matt = mat;
+
+  int value = 0;
+  ASSERT_EQUAL(*Matrix_at(&matt, 1, 1), value);
+}
+
 TEST(test_at_complex){
   Matrix mat;
   const int width = 3;
@@ -82,6 +93,23 @@ TEST(test_at_complex){
   Matrix_fill(&mat, inside_value);
   Matrix_fill_border(&mat, outside_value);
   ASSERT_EQUAL(*Matrix_at(&mat, 1, 1), inside_value);
+}
+
+TEST(test_print) {
+  Matrix mat;
+  const int width = 2;
+  const int height = 2;
+  Matrix_init(&mat, width, height);
+
+  Matrix_fill(&mat, 7);
+
+  ostringstream output;
+
+  Matrix_print(&mat, output);
+
+  string eout = "2 2\n7 7 \n7 7 \n";
+
+  ASSERT_EQUAL(output.str(), eout);
 }
 
 TEST(test_max){
@@ -121,6 +149,20 @@ TEST(test_min_row){
   Matrix_fill(&mat, inside_value);
   Matrix_fill_border(&mat, outside_value);
   ASSERT_EQUAL(Matrix_min_value_in_row(&mat, 1, 0, 2), 3);
+}
+
+TEST(test_min_column_two){
+  Matrix mat;
+  const int width = 4;
+  const int height = 4;
+  const int inside_value = 3;
+  const int outside_value = 7;
+
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, inside_value);
+  Matrix_fill_border(&mat, outside_value);
+  *Matrix_at(&mat, 2, 0) = 1;
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 2, 0, 3), 0);
 }
 
 TEST_MAIN() // Do NOT put a semicolon here

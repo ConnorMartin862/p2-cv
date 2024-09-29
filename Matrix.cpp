@@ -94,19 +94,14 @@ void Matrix_fill(Matrix* mat, int value) {
 //           the given value. These are all elements in the first/last
 //           row or the first/last column.
 void Matrix_fill_border(Matrix* mat, int value) {
-  for (int i = 0; i < mat->height; i++){
-    if (i == 0 || i == (mat->height - 1)) {
-      for (int j = 0; j < mat->width; j++){
-        mat->data[(mat->width * i) + j] = value;
-      }
+  for (int j = 0; j < mat->width; j++) {
+        mat->data[j] = value;
+        mat->data[(mat->height - 1) * mat->width + j] = value; 
     }
-    else {
-      for (int j = 0; j < mat->width; j++){
-        if (j == 0 || j == (mat->width - 1)) {
-          mat->data[(mat->width * i) + j] = value;
-        }
-      }
-    }
+
+  for (int i = 1; i < mat->height - 1; i++) {
+      mat->data[i * mat->width] = value; 
+      mat->data[i * mat->width + (mat->width - 1)] = value;
   }
 }
 

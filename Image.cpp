@@ -51,16 +51,16 @@ void Image_init(Image* img, std::istream& is) {
   Matrix_init(&img->red_channel, width, height);
   Matrix_init(&img->green_channel, width, height);
   Matrix_init(&img->blue_channel, width, height);
-
+  
   for (int i = 0; i < width * height; i++) {
     int r;
     int g;
     int b;
 
     is >> r >> g >> b;
-    img->red_channel.data[i] = r;
-    img->green_channel.data[i] = g;
-    img->blue_channel.data[i] = b;
+    *Matrix_at(&img->red_channel, (i / width), (i % width)) = r;
+    *Matrix_at(&img->green_channel, (i / width), (i % width)) = g;
+    *Matrix_at(&img->blue_channel, (i / width), (i % width)) = b;
   }
 }
 
@@ -86,9 +86,9 @@ void Image_print(const Image* img, std::ostream& os) {
 
   for(int i = 0; i < img->height; i++) {
     for (int j = 0; j < img->width; j++) {
-      os << img->red_channel.data[(i * img->width) + j] << " " <<
-       img->green_channel.data[(i * img->width) + j] << " " << 
-       img->blue_channel.data[(i * img->width) + j] << " ";
+      os << *Matrix_at(&img->red_channel, i, j) << " " <<
+       *Matrix_at(&img->green_channel, i, j) << " " << 
+       *Matrix_at(&img->blue_channel, i, j) << " ";
     }
     os << std::endl;
   }
@@ -137,11 +137,10 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
   assert(0 <= row && row < Image_height(img));
   assert(0 <= column && column < Image_width(img));
-  int pixel_num = (row * img->width) + column;
 
-  img->red_channel.data[pixel_num] = color.r;
-  img->blue_channel.data[pixel_num] = color.b;
-  img->green_channel.data[pixel_num] = color.g;
+  *Matrix_at(&img->red_channel, row, column) = color.r;
+  *Matrix_at(&img->green_channel, row, column) = color.g;
+  *Matrix_at(&img->blue_channel, row, column) = color.b;
 }
 
 // REQUIRES: img points to a valid Image
